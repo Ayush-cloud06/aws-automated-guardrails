@@ -1,6 +1,12 @@
 resource "aws_s3_bucket" "example" {
   bucket = "guardrails-test-bucket-066"
+
+  # checkov:skip=CKV2_AWS_62: "Event notifications not required for demo/test buckets"
+  # checkov:skip=CKV_AWS_144: "Cross-region replication not required for guardrails demo"
 }
+
+# TO SKIP CHECKOV SCANNING FOLLOW THE FORMAT:- # checkov:skip=<RULE_ID>: "<REASON>"
+
 
 # Block public access
 resource "aws_s3_bucket_public_access_block" "example" {
