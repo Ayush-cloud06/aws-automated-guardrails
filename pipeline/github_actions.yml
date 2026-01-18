@@ -70,9 +70,31 @@ jobs:
     - name: Run OPA policies
       run: |
         echo "Running OPA policies..."
+
         ./opa-bin eval \
           --format preety \
           --fail-defined \
           --input terraform/tfplan.json \
           --data opa/policies \
-          "data.policies.terraform"
+          "data.policies.terraform.aws_ec2.deny"
+
+        ./opa-bin eval \
+          --format preety \
+          --fail-defined \
+          --input terraform/tfplan.json \
+          --data opa/policies \
+          "data.policies.terraform.aws_iam.deny"
+
+        ./opa-bin eval \
+          --format preety \
+          --fail-defined \
+          --input terraform/tfplan.json \
+          --data opa/policies \
+          "data.policies.terraform.aws_s3.deny"
+
+        ./opa-bin eval \
+          --format preety \
+          --fail-defined \
+          --input terraform/tfplan.json \
+          --data opa/policies \
+          "data.policies.terraform.aws_vpc.deny"
