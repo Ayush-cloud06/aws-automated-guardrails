@@ -48,6 +48,7 @@ jobs:
 
     - name: Convert Plan to JSON
       run: terraform show -json tfplan.out > tfplan.json
+      working-directory: terraform
 
     - name: Run Checkov
       uses: bridgecrewio/checkov-action@master
