@@ -17,6 +17,10 @@ on:
   pull_request:
 
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   security:
     runs-on: ubuntu-latest
