@@ -78,18 +78,3 @@ resource "aws_iam_role_policy" "s3_lambda_sns_policy" {
     ]
   })
 }
-resource "aws_lambda_function" "s3_public_fix" {
-  function_name = "s3-public-fix"
-  filename      = "lambda/s3_public_fix.zip"
-  handler       = "s3_public_fix.lambda_handler"
-  runtime       = "python3.10"
-  role          = aws_iam_role.s3_fix_lambda_role.arn
-
-  environment {
-    variables = {
-      SNS_TOPIC_ARN = aws_sns_topic.security_alerts.arn
-    }
-  }
-
-  source_code_hash = filebase64sha256("lambda/s3_public_fix.zip")
-}
