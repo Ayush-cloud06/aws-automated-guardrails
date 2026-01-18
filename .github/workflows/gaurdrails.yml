@@ -60,29 +60,29 @@ jobs:
           echo "Running OPA policies"
 
           ./opa-bin eval \
-           --format pretty \
+           --format preety \
            --fail-defined \
            --input terraform/tfplan.json \
            --data opa/policies \
-           "data.policies.terraform.aws_ec2.deny"
+           'count(data.policies.terraform.aws_ec2.deny) > 0'
 
           ./opa-bin eval \
-           --format pretty \
+           --format preety \
            --fail-defined \
            --input terraform/tfplan.json \
            --data opa/policies \
-           "data.policies.terraform.aws_iam.deny"
+          'count(data.policies.terraform.aws_iam.deny) > 0'
 
           ./opa-bin eval \
-           --format pretty \
+           --format preety \
            --fail-defined \
            --input terraform/tfplan.json \
            --data opa/policies \
-           "data.policies.terraform.aws_s3.deny"
+          'count(data.policies.terraform.aws_s3.deny) > 0'
 
           ./opa-bin eval \
-           --format pretty \
+           --format preety \
            --fail-defined \
            --input terraform/tfplan.json \
            --data opa/policies \
-           "data.policies.terraform.aws_vpc.deny"
+           'count(data.policies.terraform.aws_vpc.deny) > 0'
