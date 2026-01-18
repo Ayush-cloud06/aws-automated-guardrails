@@ -98,3 +98,7 @@ jobs:
           --input terraform/tfplan.json \
           --data opa/policies \
           'count(data.policies.terraform.aws_vpc.deny) > 0'
+
+    - name: Save OPA output
+      run: |
+        ./opa-bin eval ... > opa_results.txt
