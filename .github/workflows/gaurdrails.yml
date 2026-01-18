@@ -59,7 +59,7 @@ jobs:
         run: |
           echo "Running OPA policies"
           ./opa-bin eval \
-           --format preety \
+           --format pretty \
            --fail-defined \
            --input terraform/tfplan.json \
            --data opa/policies \
