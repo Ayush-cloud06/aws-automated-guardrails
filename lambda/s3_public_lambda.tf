@@ -71,7 +71,7 @@ resource "aws_iam_role_policy" "s3_lambda_sns_policy" {
         Effect = "Allow",
         Action = [
           "s3:PutBucketAcl",
-          "s3:PutPublicAccessBlock"
+          "s3:PutBucketPublicAccessBlock"
         ],
         Resource = "*"
       }

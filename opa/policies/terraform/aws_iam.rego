@@ -22,11 +22,11 @@ deny[msg] if {
 
 deny[msg] if {
     r := input.planned_values.root_module.resources[_]
-    r.type in {"aws_ian_role_policy", "aws_iam_user_policy"}
+    r.type in {"aws_iam_role_policy", "aws_iam_user_policy"}
 
     msg := sprintf(
         "Inline IAM poicy %s is not allowed. use managed IAM policies instead",
-        [r.addresss]
+        [r.address]
     )
 }
 

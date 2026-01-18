@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "root_key_created" {
-  name        = "root-access-key-crerated"
+  name        = "root-access-key-created"
   description = "Detect creation of access keys for root user"
 
   event_pattern = jsonencode({

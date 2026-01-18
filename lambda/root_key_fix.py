@@ -11,11 +11,13 @@ def lambda_handler(event, context):
     print("Event:", json.dumps(event))
 
     try:
-        # Root user has no username, so list all root keys
-        keys = iam.list_access_keys()["AccessKeyMetadata"]
+        
+        keys = iam.list_access_keys(UserName='root')["AccessKeyMetadata"]
 
         for key in keys:
-            iam.delete_access_key(AccessKeyId=key["AccessKeyId"])
+            iam.delete_access_key(
+                UserName = 'root', AccessKeyId=key["AccessKeyId"]
+                )
 
 
         message = "🚨 Root access key was created and has been DELETED automatically."

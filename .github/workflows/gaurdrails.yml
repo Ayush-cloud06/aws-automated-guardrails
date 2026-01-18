@@ -25,11 +25,11 @@ jobs:
           role-to-assume: arn:aws:iam::982081090103:role/github-actions-oidc-role
           aws-region: ap-south-1
 
-      - name: Terrafomr init
+      - name: Terraform init
         run: terraform init
         working-directory: terraform
 
-      - name: Terrafomr Plan
+      - name: Terraform Plan
         run: terraform plan -out=tfplan.out
         working-directory: terraform
 
