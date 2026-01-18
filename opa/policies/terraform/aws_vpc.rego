@@ -19,7 +19,7 @@ deny[msg] if {
 
     msg := sprintf(
         "VPC %s does not have Flow Logs enabled",
-        [vpc.vlaues.cidr_block]
+        [vpc.values.cidr_block]
     )
 }
   # Helper: Check if flow logs exist for VPC

@@ -76,6 +76,9 @@ deny[msg] if {
     r := input.planned_values.root_module.resources[_]
     r.type == "aws_instance"
 
+    # SAFE NAVIGATION: Default to empty object if tags are missing
+    tags := object.get(r.values, "tags", {})
+
     missing := missing_tags(r.values.tags)
     count(missing) > 0
 
