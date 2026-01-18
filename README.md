@@ -1,30 +1,35 @@
 # 🛡️ AWS Automated Guardrails System
 
-The **AWS Automated Guardrails System** is a security automation platform that makes cloud security **self-enforcing**.
+The **AWS Automated Guardrails System** is a cloud security automation platform that makes security **self-enforcing by design**.
 
-This project ensures that security rules are continuously enforced through pipelines, detection systems, and automatic remediation.
+It ensures that security rules are not just documented or reviewed, but continuously enforced through pipelines, detection systems, and automatic remediation.
 
-If someone tries to deploy insecure infrastructure or weaken security controls, the system:
+If anyone tries to deploy insecure infrastructure or weaken security controls, the system will:
 
-* 🚫 Blocks it
-* 🔍 Detects it
-* 🔧 Fixes it
-* 📢 Alerts you
+* 🚫 Block it
+* 🔍 Detect it
+* 🔧 Fix it
+* 📢 Alert you
 
-This is **Level 2** in the security maturity model.
+This represents **Level 2** in a cloud security maturity model:
+from *secure-by-setup* → to *secure-by-automation*.
 
 ---
 
 ## 🧠 Core Idea
 
-Security should not rely on people remembering rules.
+Security should not depend on people remembering rules.
 Security should be enforced by systems.
 
 ```
 Developer → CI/CD → Policy Checks → AWS → Detection → Remediation → Alerts
 ```
 
-A closed-loop security engine.
+This creates a **closed-loop security engine**.
+
+No silent failures.
+No forgotten controls.
+No human dependency.
 
 ---
 
@@ -32,7 +37,9 @@ A closed-loop security engine.
 
 ### 🟢 Preventive Controls (Before Deployment)
 
-CI/CD pipeline that runs:
+Security starts in the pipeline.
+
+The CI/CD pipeline runs:
 
 * Terraform Plan
 * Checkov
@@ -46,42 +53,52 @@ The pipeline fails if:
 * ❌ Encryption is missing
 * ❌ Terraform violates internal security policies
 
-Nothing insecure reaches AWS.
+Nothing insecure is allowed to reach AWS.
+
+This is **shift-left security** done properly.
 
 ---
 
 ### 🟡 Detective Controls (After Deployment)
 
-AWS-native detection:
+AWS-native detection ensures visibility and drift detection:
 
-* **AWS Config**
+#### 🔍 AWS Config
 
-  * Detects configuration drift
-  * Rules for:
+* Detects configuration drift
+* Rules for:
 
-    * Public S3
-    * Open security groups
-    * Root MFA compliance
+  * Public S3 buckets
+  * Open security group ports
+  * Root MFA compliance
 
-* **GuardDuty**
+#### 🛡️ GuardDuty
 
-  * Detects malicious or suspicious behavior
+* Detects malicious and suspicious activity
+* Credential compromise
+* Unusual API behavior
+* Reconnaissance or brute force attempts
 
-* **Security Hub**
+#### 📊 Security Hub
 
-  * Centralized security posture dashboard
+* Centralized security posture dashboard
+* Aggregates:
+
+  * AWS Config findings
+  * GuardDuty findings
+  * Compliance signals
 
 ---
 
 ### 🔴 Corrective Controls (Automatic Remediation)
 
-Event-driven remediation using:
+Security becomes **self-healing** using:
 
 * EventBridge
 * Lambda
 * SNS
 
-Examples:
+Event-driven remediation:
 
 | 🚨 Event                 | 🛠️ Action           |
 | ------------------------ | -------------------- |
@@ -89,7 +106,8 @@ Examples:
 | S3 bucket becomes public | Block access + alert |
 | Security group opens SSH | Revoke rule + alert  |
 
-Security becomes **self-healing**.
+The system does not wait for humans.
+It fixes violations instantly.
 
 ---
 
@@ -97,42 +115,50 @@ Security becomes **self-healing**.
 
 ```text
 aws-automated-guardrails/
+├── aws-config/           # 🔍 AWS Config rules & recorder
+├── eventbridge/          # ⚡ Detection → Trigger mapping
+├── lambda/               # 🔧 Remediation logic
+├── alerts/               # 📢 SNS alerting
+├── security/             # 🛡 GuardDuty + Security Hub
+├── opa/                  # 🧠 Policy-as-code (Rego)
+├── pipeline/             # 📘 CI pipeline (documentation copy)
 ├── .github/
-│   └── workflows/
-│       └── guardrails.yml        # 🔥 Executed CI pipeline
-├── pipeline/
-│   └── github_actions.yml        # 📘 Same pipeline for documentation
-├── opa/
-│   └── policies/                 # 🧠 Rego policies (Cloud law)
-├── terraform/
-│   └── test-infra/               # 🧪 Intentionally insecure examples
+│   └── workflows/        # 🔥 Actual running GitHub Actions
+├── terraform/            # 🧪 Demo/test infrastructure
 └── README.md
 ```
 
-> ⚠️ Note:
-> Only files inside `.github/workflows/` are executed by GitHub.
-> The `pipeline/` folder exists for architecture clarity and portfolio readability.
+> ⚠️ Important
+> Only files inside `.github/workflows/` are executed by GitHub Actions.
+> The `pipeline/` directory exists for:
+
+* Documentation clarity
+* Architecture explanation
+* Portfolio readability
 
 ---
 
 ## 🧩 Security Model
 
-This system uses layered enforcement:
+This system uses **layered enforcement**:
 
 | Layer                | Purpose                       |
 | -------------------- | ----------------------------- |
 | CI/CD                | Prevent bad infrastructure    |
 | OPA                  | Enforce internal security law |
 | AWS Config           | Detect configuration drift    |
-| GuardDuty            | Detect threats                |
+| GuardDuty            | Detect threats and compromise |
 | EventBridge + Lambda | Automatic remediation         |
-| SNS                  | Central alerting              |
+| SNS                  | Centralized alerting          |
+| Security Hub         | Unified security posture      |
 
-Together they form:
+Together:
 
 ```
 Prevent → Detect → Fix → Notify
 ```
+
+This is a real-world security control loop.
 
 ---
 
@@ -144,19 +170,24 @@ This project assumes the existence of:
 
 | Level   | Purpose                             |
 | ------- | ----------------------------------- |
-| Level 1 | Secures the AWS account itself      |
+| Level 1 | Secures the AWS account foundation  |
 | Level 2 | Makes security impossible to bypass |
 
-They are designed to work together.
+Level 1 builds safety.
+Level 2 enforces safety.
 
 ---
 
 ## 🧬 Philosophy
 
-Most security systems **detect** problems.
-This system **prevents and corrects** them.
+Most systems only **detect** problems.
+This system **prevents, detects, and corrects** them.
 
 Most security depends on humans.
-This system **enforces security by default**.
+This system **enforces security automatically**.
 
 That is what makes this a **Guardrails System**.
+
+Not advice.
+Not guidelines.
+**Law.**
