@@ -1,6 +1,15 @@
 # This file mirrors .github/workflows/guardrails.yml
 # It exists for documentation and architecture clarity.
 
+# steps:
+# - Checkout
+# - Configure AWS credentials (OIDC)
+# - Terraform init
+# - Terraform plan
+# - Checkov
+# - tfsec
+# - OPA 
+
 name: AWS Automated Gaurdrails
 
 on:
@@ -18,6 +27,12 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
+
+    - name: Configure AWS credentials (OIDC)
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::<AccountID>:role/github-actions-oidc-role
+        aws-region: ap-south-1
 
     - name: Terrafomr init
       run: terraform init
