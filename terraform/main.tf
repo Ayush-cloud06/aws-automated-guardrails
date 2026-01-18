@@ -5,7 +5,8 @@ resource "aws_s3_bucket" "example" {
   # checkov:skip=CKV_AWS_144: "Cross-region replication not required for guardrails demo"
 }
 
-# TO SKIP CHECKOV SCANNING FOLLOW THE FORMAT:- # checkov:skip=<RULE_ID>: "<REASON>"
+# Checkov skip format: skip RULE_ID : "reason"
+
 
 
 # Block public access
