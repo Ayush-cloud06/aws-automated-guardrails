@@ -47,3 +47,17 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
           working_directory: terraform
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+          sudo mv opa /usr/local/bin/
+
+      - name: Run OPA policies
+        run: |
+          opa eval \
+           --fail-defined \
+           --input terraform/tfplan.json \
+           --data opa/policies \
+           "data.policies.terraform"
